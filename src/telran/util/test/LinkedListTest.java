@@ -1,5 +1,7 @@
 package telran.util.test;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import org.junit.jupiter.api.BeforeEach;
 
 import telran.util.Collection;
@@ -19,6 +21,11 @@ public class LinkedListTest extends ListTest {
 			res.add(num);
 		}
 		return res;
+	}
+	@Override
+	protected void runArrayTest(Integer[] expected,Integer[] actual) {
+		assertArrayEquals(expected, actual);
+		
 	}
 
 }

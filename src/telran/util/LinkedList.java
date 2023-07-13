@@ -15,6 +15,7 @@ public class LinkedList<T> implements List<T> {
 	}
 private class LinkedListIterator implements Iterator<T>	{
 	Node<T> current=head;
+	boolean flNext=false;
 	
 
 	@Override
@@ -28,13 +29,18 @@ private class LinkedListIterator implements Iterator<T>	{
 		if(!hasNext()) {
 			 throw new NoSuchElementException();	
 		}
+		 flNext=true;
 		 T obj=current.obj;
 		 current=current.next;
 		 return obj;
 	}
 	 @Override
 	    public void remove() {
-	        throw new UnsupportedOperationException("remove() operation is not supported");
+	       if(!flNext) {
+	    	   throw new IllegalStateException();   
+	       }
+	       Node<T>nodeToRemove=current!=null?current.prev:tail;
+	       flNext=false;
 	    }
 	
 }
@@ -149,7 +155,7 @@ private class LinkedListIterator implements Iterator<T>	{
 
 	@Override
 	public T remove(int index) {
-		indexValidation(index, true);
+		indexValidation(index, false);
 		Node<T>node=getNode(index);
 		removeNode(node);
 		size--;

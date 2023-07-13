@@ -21,5 +21,10 @@ public class ArrayListTest extends ListTest {
 		collection = new ArrayList<>(3);
 		super.setUp();
 	}
+	@Override
+	protected void runArrayTest(Integer[] expected, Integer[] actual) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }
