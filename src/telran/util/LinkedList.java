@@ -5,7 +5,7 @@ import java.util.NoSuchElementException;
 import java.util.function.Predicate;
 
 public class LinkedList<T> implements List<T> {
-	private static class Node<T> {
+	public static class Node<T> {
 		T obj;
 		Node<T> next;
 		Node<T> prev;

@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
+import telran.util.LinkedList.Node;
+
 public class HashSet<T> implements Set<T> {
 	private static final int DEFAULT_TABLE_LENGTH = 16;
 	private LinkedList<T>[] hashTable;
@@ -92,39 +94,28 @@ public class HashSet<T> implements Set<T> {
 	
 	public class HashSetIterator<T> implements Iterator<T> {
 		private int currentIndex=0;
-		private Iterator<T>listIterator=null;
+		private Node<T>lastNode=(Node<T>) hashTable[currentIndex].head;
 		boolean flNext=false;
 		private T lastObj=null;
-		public HashSetIterator() {
-			findList();
-		}
-		
-
-		private void findList() {
-			while(currentIndex<hashTable.length) {
-				if(hashTable[currentIndex]!=null) {
-					listIterator=(Iterator<T>) hashTable[currentIndex].iterator();
-				}
-				currentIndex++;
-			}
-			listIterator=null;
-			
-		}
-
-
 		@Override
 		public boolean hasNext() {
 			
-			return listIterator!=null&&listIterator.hasNext();
+			return currentIndex<hashTable.length;
 		}
 
 		@Override
 		public T next() {
+			T lastObj=null;
 			if(!hasNext()) {
 				 throw new NoSuchElementException();	
 			}
-			 flNext=true;
-			 lastObj = listIterator.next();
+			flNext=true;
+			 if(lastNode.next==null) {
+				 currentIndex++;
+			 }
+				 lastObj=lastNode.obj;
+				 lastNode=lastNode.next;
+				 
 			 return lastObj;
 			 
 		}
@@ -132,14 +123,12 @@ public class HashSet<T> implements Set<T> {
 			if(!flNext) {
 				throw new IllegalStateException();
 			}
-			while(listIterator.hasNext()) {
-				HashSet.this.remove(lastObj);
-				lastObj=null;
-				flNext=false;
-				
+			Node<T>prevNode=lastNode.prev;
+			HashSet.this.remove(prevNode.obj);
+			flNext=false;
 			}
 			
-		}
+		
 	}
 
 	@Override
@@ -167,4 +156,5 @@ public class HashSet<T> implements Set<T> {
 		
 		return new HashSetIterator<>();
 	}
+
 }
