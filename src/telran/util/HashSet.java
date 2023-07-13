@@ -124,6 +124,10 @@ public class HashSet<T> implements Set<T> {
 				throw new IllegalStateException();
 			}
 			Node<T>prevNode=lastNode.prev;
+			if(prevNode==null) {
+				currentIndex--;
+				prevNode=(Node<T>) hashTable[currentIndex].tail;
+			}
 			HashSet.this.remove(prevNode.obj);
 			flNext=false;
 			}
