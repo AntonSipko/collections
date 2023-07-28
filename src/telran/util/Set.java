@@ -1,6 +1,5 @@
 package telran.util;
 
 public interface Set<T> extends Collection<T> {
-	T get(T obj);
-
+	T get(Object pattern);
 }
